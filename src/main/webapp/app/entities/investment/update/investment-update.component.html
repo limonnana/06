@@ -1,0 +1,117 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-investment-heading" data-cy="InvestmentCreateUpdateHeading">Crear o editar Investment</h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let startDateRef = editForm.get('startDate')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_startDate">Start Date</label>
+          <div class="input-group">
+            <input
+              id="field_startDate"
+              data-cy="startDate"
+              type="text"
+              class="form-control"
+              name="startDate"
+              ngbDatepicker
+              #startDateDp="ngbDatepicker"
+              formControlName="startDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+          @if (startDateRef.invalid && (startDateRef.dirty || startDateRef.touched)) {
+            <div>
+              @if (editForm.get('startDate')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let startAmountRef = editForm.get('startAmount')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_startAmount">Start Amount</label>
+          <input
+            type="number"
+            class="form-control"
+            name="startAmount"
+            id="field_startAmount"
+            data-cy="startAmount"
+            formControlName="startAmount"
+          />
+          @if (startAmountRef.invalid && (startAmountRef.dirty || startAmountRef.touched)) {
+            <div>
+              @if (editForm.get('startAmount')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('startAmount')?.errors?.number"
+                >Este campo debe ser un número.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let currentValueRef = editForm.get('currentValue')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_currentValue">Current Value</label>
+          <input
+            type="number"
+            class="form-control"
+            name="currentValue"
+            id="field_currentValue"
+            data-cy="currentValue"
+            formControlName="currentValue"
+          />
+          @if (currentValueRef.invalid && (currentValueRef.dirty || currentValueRef.touched)) {
+            <div>
+              @if (editForm.get('currentValue')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('currentValue')?.errors?.number"
+                >Este campo debe ser un número.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

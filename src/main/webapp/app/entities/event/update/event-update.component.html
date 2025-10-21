@@ -1,0 +1,101 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-event-heading" data-cy="EventCreateUpdateHeading">Crear o editar Event</h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let saldoRef = editForm.get('saldo')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_saldo">Saldo</label>
+          <input type="number" class="form-control" name="saldo" id="field_saldo" data-cy="saldo" formControlName="saldo" />
+          @if (saldoRef.invalid && (saldoRef.dirty || saldoRef.touched)) {
+            <div>
+              @if (editForm.get('saldo')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('saldo')?.errors?.number">Este campo debe ser un número.</small>
+            </div>
+          }
+        </div>
+
+        @let amountRef = editForm.get('amount')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_amount">Amount</label>
+          <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
+          @if (amountRef.invalid && (amountRef.dirty || amountRef.touched)) {
+            <div>
+              @if (editForm.get('amount')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('amount')?.errors?.number">Este campo debe ser un número.</small>
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+
+        @let dateOfEventRef = editForm.get('dateOfEvent')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_dateOfEvent">Date Of Event</label>
+          <div class="input-group">
+            <input
+              id="field_dateOfEvent"
+              data-cy="dateOfEvent"
+              type="text"
+              class="form-control"
+              name="dateOfEvent"
+              ngbDatepicker
+              #dateOfEventDp="ngbDatepicker"
+              formControlName="dateOfEvent"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateOfEventDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          @if (dateOfEventRef.invalid && (dateOfEventRef.dirty || dateOfEventRef.touched)) {
+            <div>
+              @if (editForm.get('dateOfEvent')?.errors?.required) {
+                <small class="form-text text-danger">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

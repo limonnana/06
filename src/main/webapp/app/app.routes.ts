@@ -9,7 +9,12 @@ const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./home/home.component'),
-    title: 'home.title',
+    title: 'Inicio',
+  },
+  {
+    path: 'events',
+    loadComponent: () => import('./events/events.component'),
+    title: 'Inicio',
   },
   {
     path: '',
@@ -35,6 +40,10 @@ const routes: Routes = [
   },
   {
     path: '',
+    data: {
+      authorities: [Authority.ADMIN],
+    },
+    canActivate: [UserRouteAccessService],
     loadChildren: () => import(`./entities/entity.routes`),
   },
   ...errorRoute,

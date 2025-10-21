@@ -41,6 +41,8 @@ public class CacheConfiguration {
             createCache(cm, com.limonnana.repository.UserRepository.USERS_BY_LOGIN_CACHE);
             createCache(cm, com.limonnana.repository.UserRepository.USERS_BY_EMAIL_CACHE);
             createCache(cm, com.limonnana.domain.Authority.class.getName());
+            createCache(cm, com.limonnana.domain.Event.class.getName());
+            createCache(cm, com.limonnana.domain.Investment.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
