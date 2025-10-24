@@ -1,11 +1,14 @@
 package com.limonnana.web.rest;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.limonnana.domain.Event;
 import com.limonnana.repository.EventRepository;
 import com.limonnana.service.EventService;
 import com.limonnana.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -137,6 +140,14 @@ public class EventResource {
     public List<Event> getAllEvents() {
         LOG.debug("REST request to get all Events");
         return eventService.findAll();
+    }
+
+    @GetMapping("/saldo")
+    public String getSaldo() {
+        BigDecimal saldo = eventService.getSaldo();
+        JsonObject json = new JsonObject();
+        json.addProperty("saldo", saldo);
+        return new Gson().toJson(json);
     }
 
     /**

@@ -2,6 +2,7 @@ package com.limonnana.service;
 
 import com.limonnana.domain.Event;
 import com.limonnana.repository.EventRepository;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -32,7 +33,19 @@ public class EventService {
      */
     public Event save(Event event) {
         LOG.debug("Request to save Event : {}", event);
+        setSaldo(event);
         return eventRepository.save(event);
+    }
+
+    private void setSaldo(Event event) {
+        BigDecimal oldSaldo = event.getSaldo();
+        BigDecimal newSaldo = oldSaldo.add(event.getSaldo());
+        event.setSaldo(newSaldo);
+    }
+
+    public BigDecimal getSaldo() {
+        Event lastEvent = eventRepository.findFirstByOrderByIdDesc();
+        return lastEvent.getSaldo();
     }
 
     /**
@@ -84,7 +97,7 @@ public class EventService {
     @Transactional(readOnly = true)
     public List<Event> findAll() {
         LOG.debug("Request to get all Events");
-        return eventRepository.findAll();
+        return eventRepository.findAllByOrderByIdDesc();
     }
 
     /**
