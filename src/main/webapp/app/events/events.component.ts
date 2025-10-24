@@ -29,10 +29,13 @@ export default class EventsComponent implements OnInit {
   events?: IEvent[] | null;
   investments?: IInvestment[] | null;
   saldo: number | null | undefined;
+  saldoTotal: number | null | undefined;
+  investmentsTotal: number | null | undefined;
 
   ngOnInit(): void {
     this.getEvents();
     this.getInvestments();
+    this.getInvestmentsTotal();
   }
 
   getEvents(): void {
@@ -50,7 +53,7 @@ export default class EventsComponent implements OnInit {
     this.investmentService.query().subscribe({
       next: (response: EntityArrayResponseType) => {
         this.investments = response.body; // Aquí tienes tu lista de eventos
-        console.log('el evento' + this.investments);
+        console.log('the investments' + this.investments);
       },
       error: error => console.error(error),
     });
@@ -62,6 +65,17 @@ export default class EventsComponent implements OnInit {
         console.log('Saldo response:', response);
         this.saldo = response.body?.saldo;
         console.log('Saldo asignado:', this.saldo);
+      },
+      error: error => console.error('Error:', error),
+    });
+  }
+
+  getInvestmentsTotal(): void {
+    this.investmentService.total().subscribe({
+      next: response => {
+        console.log('Saldo response:', response);
+        this.investmentsTotal = response.body?.total;
+        console.log('Total investments:', this.investmentsTotal);
       },
       error: error => console.error('Error:', error),
     });
