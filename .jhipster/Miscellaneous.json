@@ -1,0 +1,18 @@
+{
+  "annotations": {
+    "changelogDate": "20251024145359"
+  },
+  "fields": [
+    {
+      "fieldName": "lastUpdate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Miscellaneous",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "no"
+}

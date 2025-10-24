@@ -38,8 +38,9 @@ public class EventService {
     }
 
     private void setSaldo(Event event) {
-        BigDecimal oldSaldo = event.getSaldo();
-        BigDecimal newSaldo = oldSaldo.add(event.getSaldo());
+        Event lastOldEvent = eventRepository.findFirstByOrderByIdDesc();
+        BigDecimal oldSaldo = lastOldEvent.getSaldo();
+        BigDecimal newSaldo = oldSaldo.add(event.getAmount());
         event.setSaldo(newSaldo);
     }
 
