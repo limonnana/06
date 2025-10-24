@@ -335,7 +335,7 @@ class InvestmentResourceIT {
         Investment partialUpdatedInvestment = new Investment();
         partialUpdatedInvestment.setId(investment.getId());
 
-        partialUpdatedInvestment.currentValue(UPDATED_CURRENT_VALUE);
+        partialUpdatedInvestment.description(UPDATED_DESCRIPTION);
 
         restInvestmentMockMvc
             .perform(

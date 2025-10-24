@@ -66,6 +66,11 @@ export class InvestmentService {
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
+  total(req?: any): Observable<any> {
+    const options = createRequestOption(req);
+    return this.http.get<any>(this.resourceUrl + '/total', { params: options, observe: 'response' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

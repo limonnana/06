@@ -1,11 +1,14 @@
 package com.limonnana.web.rest;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.limonnana.domain.Investment;
 import com.limonnana.repository.InvestmentRepository;
 import com.limonnana.service.InvestmentService;
 import com.limonnana.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -139,6 +142,19 @@ public class InvestmentResource {
     public List<Investment> getAllInvestments() {
         LOG.debug("REST request to get all Investments");
         return investmentService.findAll();
+    }
+
+    @GetMapping("/total")
+    public String getTotalInvestments() {
+        BigDecimal total = new BigDecimal(0);
+        List<Investment> investmentList = getAllInvestments();
+
+        for (Investment i : investmentList) {
+            total = total.add(i.getCurrentValue());
+        }
+        JsonObject json = new JsonObject();
+        json.addProperty("total", total);
+        return new Gson().toJson(json);
     }
 
     /**

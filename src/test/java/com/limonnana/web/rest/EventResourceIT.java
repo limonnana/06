@@ -321,7 +321,7 @@ class EventResourceIT {
         Event partialUpdatedEvent = new Event();
         partialUpdatedEvent.setId(event.getId());
 
-        partialUpdatedEvent.saldo(UPDATED_SALDO).amount(UPDATED_AMOUNT).description(UPDATED_DESCRIPTION);
+        partialUpdatedEvent.saldo(UPDATED_SALDO).description(UPDATED_DESCRIPTION);
 
         restEventMockMvc
             .perform(

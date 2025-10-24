@@ -15,12 +15,14 @@ import { InvestmentDeleteDialogComponent } from '../delete/investment-delete-dia
 @Component({
   selector: 'jhi-investment',
   templateUrl: './investment.component.html',
+  styleUrl: './investment.scss',
   imports: [RouterModule, FormsModule, SharedModule, SortDirective, SortByDirective, FormatMediumDatePipe],
 })
 export class InvestmentComponent implements OnInit {
   subscription: Subscription | null = null;
   investments = signal<IInvestment[]>([]);
   isLoading = false;
+  total: number | null | undefined;
 
   sortState = sortStateSignal({});
 
@@ -46,6 +48,7 @@ export class InvestmentComponent implements OnInit {
         }),
       )
       .subscribe();
+    this.getTotal();
   }
 
   delete(investment: IInvestment): void {
@@ -65,6 +68,17 @@ export class InvestmentComponent implements OnInit {
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
       },
+    });
+  }
+
+  getTotal(): void {
+    this.investmentService.total().subscribe({
+      next: response => {
+        console.log('Total response:', response);
+        this.total = response.body?.total;
+        console.log('Total :', this.total);
+      },
+      error: error => console.error('Error:', error),
     });
   }
 

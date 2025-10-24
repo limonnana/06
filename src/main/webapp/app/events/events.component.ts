@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { DEFAULT_SORT_DATA, ITEM_DELETED_EVENT, SORT } from 'app/config/navigation.constants';
 import { IEvent } from '../entities/event/event.model';
 import { EntityArrayResponseType, EventService, EntityResponseType } from '../entities/event/service/event.service';
+import { IInvestment } from 'app/entities/investment/investment.model';
+import { InvestmentService } from 'app/entities/investment/service/investment.service';
 
 @Component({
   selector: 'jhi-events',
@@ -22,12 +24,15 @@ import { EntityArrayResponseType, EventService, EntityResponseType } from '../en
 })
 export default class EventsComponent implements OnInit {
   protected readonly eventService = inject(EventService);
+  protected readonly investmentService = inject(InvestmentService);
 
   events?: IEvent[] | null;
+  investments?: IInvestment[] | null;
   saldo: number | null | undefined;
 
   ngOnInit(): void {
     this.getEvents();
+    this.getInvestments();
   }
 
   getEvents(): void {
@@ -40,14 +45,16 @@ export default class EventsComponent implements OnInit {
       error: error => console.error(error),
     });
   }
-  /*
-    getSaldo() : void{
 
-      //this.homeService.getActiveEvent().subscribe((res: HttpResponse<IEvent>) => this.onSuccess(res));
-
-     this.eventService.saldo().subscribe((res: HttpResponse<IEvent>) => this.onSuccess(res));
-    
-  }*/
+  getInvestments(): void {
+    this.investmentService.query().subscribe({
+      next: (response: EntityArrayResponseType) => {
+        this.investments = response.body; // Aquí tienes tu lista de eventos
+        console.log('el evento' + this.investments);
+      },
+      error: error => console.error(error),
+    });
+  }
 
   getSaldo(): void {
     this.eventService.saldo().subscribe({
