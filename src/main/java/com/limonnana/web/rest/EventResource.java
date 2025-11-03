@@ -150,6 +150,14 @@ public class EventResource {
         return new Gson().toJson(json);
     }
 
+    @GetMapping("/saldototal")
+    public String getSaldoTotal() {
+        BigDecimal saldoTotal = eventService.getSaldoTotal();
+        JsonObject json = new JsonObject();
+        json.addProperty("saldoTotal", saldoTotal);
+        return new Gson().toJson(json);
+    }
+
     /**
      * {@code GET  /events/:id} : get the "id" event.
      *

@@ -36,6 +36,7 @@ export default class EventsComponent implements OnInit {
     this.getEvents();
     this.getInvestments();
     this.getInvestmentsTotal();
+    this.getSaldoTotal();
   }
 
   getEvents(): void {
@@ -65,6 +66,17 @@ export default class EventsComponent implements OnInit {
         console.log('Saldo response:', response);
         this.saldo = response.body?.saldo;
         console.log('Saldo asignado:', this.saldo);
+      },
+      error: error => console.error('Error:', error),
+    });
+  }
+
+  getSaldoTotal(): void {
+    this.eventService.saldoTotal().subscribe({
+      next: response => {
+        console.log('Saldo Total response:', response);
+        this.saldoTotal = response.body?.saldoTotal;
+        console.log('Saldo total asignado:', this.saldoTotal);
       },
       error: error => console.error('Error:', error),
     });

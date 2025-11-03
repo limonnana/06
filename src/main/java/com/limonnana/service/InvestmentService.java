@@ -1,7 +1,10 @@
 package com.limonnana.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.limonnana.domain.Investment;
 import com.limonnana.repository.InvestmentRepository;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -22,6 +25,17 @@ public class InvestmentService {
 
     public InvestmentService(InvestmentRepository investmentRepository) {
         this.investmentRepository = investmentRepository;
+    }
+
+    public BigDecimal getTotalInvestments() {
+        BigDecimal total = new BigDecimal(0);
+        List<Investment> investmentList = findAll();
+
+        for (Investment i : investmentList) {
+            total = total.add(i.getCurrentValue());
+        }
+
+        return total;
     }
 
     /**

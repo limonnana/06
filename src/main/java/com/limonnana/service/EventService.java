@@ -2,6 +2,8 @@ package com.limonnana.service;
 
 import com.limonnana.domain.Event;
 import com.limonnana.repository.EventRepository;
+import com.limonnana.repository.InvestmentRepository;
+import com.limonnana.web.rest.InvestmentResource;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -21,8 +23,11 @@ public class EventService {
 
     private final EventRepository eventRepository;
 
-    public EventService(EventRepository eventRepository) {
+    private final InvestmentService investmentService;
+
+    public EventService(EventRepository eventRepository, InvestmentService investmentService) {
         this.eventRepository = eventRepository;
+        this.investmentService = investmentService;
     }
 
     /**
@@ -47,6 +52,13 @@ public class EventService {
     public BigDecimal getSaldo() {
         Event lastEvent = eventRepository.findFirstByOrderByIdDesc();
         return lastEvent.getSaldo();
+    }
+
+    public BigDecimal getSaldoTotal() {
+        BigDecimal saldo = getSaldo();
+        BigDecimal investmentTotal = investmentService.getTotalInvestments();
+        BigDecimal saldoTotal = saldo.add(investmentTotal);
+        return saldoTotal;
     }
 
     /**
