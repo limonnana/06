@@ -128,10 +128,10 @@ public class Event implements Serializable {
     public String toString() {
         return "Event{" +
             "id=" + getId() +
-            ", saldo=" + getSaldo() +
             ", amount=" + getAmount() +
-            ", description='" + getDescription() + "'" +
+            ", saldo=" + getSaldo() +
             ", dateOfEvent='" + getDateOfEvent() + "'" +
+            ", description='" + getDescription() + "'" +
             "}";
     }
 }

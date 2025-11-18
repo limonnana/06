@@ -23,8 +23,11 @@ public class InvestmentService {
 
     private final InvestmentRepository investmentRepository;
 
-    public InvestmentService(InvestmentRepository investmentRepository) {
+    private final UtilsService utilsService;
+
+    public InvestmentService(InvestmentRepository investmentRepository, UtilsService utilsService) {
         this.investmentRepository = investmentRepository;
+        this.utilsService = utilsService;
     }
 
     public BigDecimal getTotalInvestments() {
@@ -46,7 +49,10 @@ public class InvestmentService {
      */
     public Investment save(Investment investment) {
         LOG.debug("Request to save Investment : {}", investment);
-        return investmentRepository.save(investment);
+        LOG.debug("ACTUAL VALUE: {}", investment.getCurrentValue());
+        Investment i = investmentRepository.save(investment);
+        utilsService.writerToFile(i.toString());
+        return i;
     }
 
     /**

@@ -43,7 +43,6 @@ export default class EventsComponent implements OnInit {
     this.eventService.query().subscribe({
       next: (response: EntityArrayResponseType) => {
         this.events = response.body; // Aquí tienes tu lista de eventos
-        console.log('el evento' + this.events);
         this.getSaldo();
       },
       error: error => console.error(error),

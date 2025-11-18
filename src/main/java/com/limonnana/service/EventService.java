@@ -25,9 +25,12 @@ public class EventService {
 
     private final InvestmentService investmentService;
 
-    public EventService(EventRepository eventRepository, InvestmentService investmentService) {
+    private final UtilsService utilsService;
+
+    public EventService(EventRepository eventRepository, InvestmentService investmentService, UtilsService utilsService) {
         this.eventRepository = eventRepository;
         this.investmentService = investmentService;
+        this.utilsService = utilsService;
     }
 
     /**
@@ -39,7 +42,9 @@ public class EventService {
     public Event save(Event event) {
         LOG.debug("Request to save Event : {}", event);
         setSaldo(event);
-        return eventRepository.save(event);
+        Event e = eventRepository.save(event);
+        utilsService.writerToFile(e.toString());
+        return e;
     }
 
     private void setSaldo(Event event) {
