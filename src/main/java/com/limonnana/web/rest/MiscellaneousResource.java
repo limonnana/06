@@ -145,7 +145,16 @@ public class MiscellaneousResource {
     @GetMapping("")
     public List<Miscellaneous> getAllMiscellaneous() {
         LOG.debug("REST request to get all Miscellaneous");
+        getLastUpdate();
         return miscellaneousRepository.findAll();
+    }
+
+    @GetMapping("/lastupdate")
+    public String getLastUpdate() {
+        // Miscellaneous m =  miscellaneousRepository.findFirstByOrderByIdDesc();
+        Miscellaneous m = miscellaneousRepository.findLastRecord();
+        LOG.debug("REST request to get last investment update" + m.getId() + " " + m.getLastUpdate().toString());
+        return m.getLastUpdate().toString();
     }
 
     /**

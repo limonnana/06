@@ -9,4 +9,9 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MiscellaneousRepository extends JpaRepository<Miscellaneous, Long> {}
+public interface MiscellaneousRepository extends JpaRepository<Miscellaneous, Long> {
+    Miscellaneous findFirstByOrderByIdDesc();
+
+    @Query("SELECT m FROM Miscellaneous m ORDER BY m.id DESC LIMIT 1")
+    Miscellaneous findLastRecord();
+}
